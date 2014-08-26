@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">com.kptaipei</string>
+    <string name="application_name">科文哲</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+	
+    <!-- api key -->
+    <string name="api_key">accessToken=</string>
+    
+    <!-- 類別清單url -->
+    <string name="category_url">http://api.kptaipei.tw/v1/category/</string>
+    
+    <!-- 相簿清單url -->
+    <string name="albums_url" >http://api.kptaipei.tw/v1/albums/</string>
+    
+    <!-- 影片播放清單url -->
+    <string name="videos_url">http://api.kptaipei.tw/v1/videos/</string>
+    
+</resources>
