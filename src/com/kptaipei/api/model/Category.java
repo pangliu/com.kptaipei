@@ -14,7 +14,10 @@ public class Category {
 		KEY_LAST_MODIFY = "last_modify",
 		KEY_URL = "url",
 		KEY_CATEGORY_NAME = "category_name",
-		KEY_CATEGORY_ID = "category_id";
+		KEY_CATEGORY_ID = "category_id",
+		KEY_PLAIN_CONTENT = "plain_content",
+		KEY_THUMBNAIL = "thumbnail";
+		
 	
 	protected String
 		id,
@@ -25,7 +28,9 @@ public class Category {
 		lastModify,
 		url,
 		categoryName,
-		categoryId;
+		categoryId,
+		plainContent,
+		thumbnail;
 	
 	public Category(JSONObject json) throws JSONException {
 		this.id = json.getString(KEY_ID);
@@ -37,6 +42,8 @@ public class Category {
 		this.url = json.getString(KEY_URL);
 		this.categoryName = json.getString(KEY_CATEGORY_NAME);
 		this.categoryId = json.getString(KEY_CATEGORY_ID);
+		this.plainContent = json.getString(KEY_PLAIN_CONTENT);
+		this.thumbnail = json.getString(KEY_THUMBNAIL);
 	}
 	
 	public String getId() {
@@ -73,5 +80,13 @@ public class Category {
 	
 	public String getCategoryId() {
 		return categoryId;
+	}
+	
+	public String getPlainContent() {
+		return plainContent;
+	}
+	
+	public String getThumbnail() {
+		return thumbnail;
 	}
 }

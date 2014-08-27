@@ -26,6 +26,7 @@ import com.kptaipei.R;
 import com.kptaipei.api.model.Category;
 import com.kptaipei.api.model.CategoryList;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
 
@@ -48,10 +49,17 @@ public class APIHelper {
 	
 	public List<CategoryList> getCategoryList() throws ClientProtocolException, IOException, JSONException {
 		String url = context.getString(R.string.category_url) + "?" + apiKey;
-		Log.d(TAG, "url: " + url);
-		JSONObject response = new JSONObject(doGet(url));
+		String msg = null;
+		boolean isSuccess = false;
 		List<CategoryList> categoryLists = new ArrayList<CategoryList>();
-		Log.d(TAG, "response json: " + response.toString());
+		JSONObject response = new JSONObject(doGet(url));
+		Log.d(TAG, "getCategoryList json: " + response.toString());
+		if(response.has("errorMessage")) {
+			msg = response.getString("errorMessage");
+		}
+		if(response.has("isSuccess")) {
+			isSuccess = response.getBoolean("isSuccess");
+		}
 		if(response.has("data")) {
 			JSONArray dataJosn = response.getJSONArray("data");
 			for(int i=0 ; i<dataJosn.length() ; i++) {
@@ -65,15 +73,31 @@ public class APIHelper {
 				}
 			}
 		}
-		return categoryLists;
+		if(isSuccess) {
+			return categoryLists;
+		} else {
+			String errMsg = (null == msg) ? context.getResources().getString(R.string.api_error_message) : msg;
+			AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+			dialog.setMessage(errMsg)
+            	.create()
+            	.show();
+			return null;
+		}
 	}
 	
 	public List<Category> getCategory(String categoryId) throws ClientProtocolException, IOException, JSONException {
 		String url = context.getString(R.string.category_url) + categoryId + "?" + apiKey;
-		Log.d(TAG, "url: " + url);
-		JSONObject response = new JSONObject(doGet(url));
+		String msg = null;
+		boolean isSuccess = false;
 		List<Category> categories = new ArrayList<Category>();
-		//Log.d(TAG, "response json: " + response.toString());
+		JSONObject response = new JSONObject(doGet(url));
+		Log.d(TAG, "getCategory json: " + response.toString());
+		if(response.has("errorMessage")) {
+			msg = response.getString("errorMessage");
+		}
+		if(response.has("isSuccess")) {
+			isSuccess = response.getBoolean("isSuccess");
+		}
 		if(response.has("data")) {
 			JSONArray dataJosn = response.getJSONArray("data");
 			for(int i=0 ; i<dataJosn.length() ; i++) {
@@ -87,10 +111,20 @@ public class APIHelper {
 				}
 			}
 		}
-		return categories;
+		if(isSuccess) {
+			return categories;
+		} else {
+			String errMsg = (null == msg) ? context.getResources().getString(R.string.api_error_message) : msg;
+			AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+			dialog.setMessage(errMsg)
+            	.create()
+            	.show();
+			return null;
+		}
 	}
 	
 	protected String doGet(String url) throws ClientProtocolException, IOException {
+		Log.d(TAG, "url: " + url);
 		HttpGet get = new HttpGet(url);
 		HttpResponse response = client.execute(get);
 		HttpEntity resEntity = response.getEntity();

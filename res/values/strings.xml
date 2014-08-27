@@ -5,6 +5,13 @@
     <string name="application_name">科文哲</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    
+    <!-- dialog -->
+    <string name="updating">資料讀取中，請稍後</string>
+    <string name="ok">確認</string>
+    <string name="cancel">取消</string>
+	<string name="cannot_connect_please_check_your_connection">您沒有開啟網路服務功能</string>
+	<string name="api_error_message">目前無法取得資料，請稍後再試</string>
 	
     <!-- api key -->
     <string name="api_key">accessToken=</string>
