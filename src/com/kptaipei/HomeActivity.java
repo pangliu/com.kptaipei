@@ -136,7 +136,6 @@ public class HomeActivity extends BaseActivity implements ConnectivityMonitor.De
 				}
 				@Override
 				public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) {
-					// TODO Auto-generated method stub
 				}
 			};
         	ActionBar.Tab tab = actionBar.newTab()
