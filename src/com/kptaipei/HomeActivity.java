@@ -42,6 +42,7 @@ public class HomeActivity extends BaseActivity implements ConnectivityMonitor.De
 		connectivityMonitor = new ConnectivityMonitor(this, this);
 		networkUnavailableDialog = networkUnavailableDialog(this);
 		api = new APIHelper(this);
+		
 //		categoryListTask = new GetCategoryListTask();
 //		categoryListTask.execute();
 	}
@@ -57,6 +58,11 @@ public class HomeActivity extends BaseActivity implements ConnectivityMonitor.De
 	protected void onStart() {
 		super.onStart();
 		connectivityMonitor.start();
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
 		if(0 == categoryList.size()) {
 			Log.d(TAG, "category = 0");
 			categoryListTask = new GetCategoryListTask();
@@ -72,24 +78,28 @@ public class HomeActivity extends BaseActivity implements ConnectivityMonitor.De
 	@Override
 	public void onNetworkAvailable(NetworkInfo networkInfo) {
 		networkUnavailableDialog.dismiss();
-//		Log.d(TAG, "networkavailable");
-//		if(0 == categoryList.size()) {
-//			Log.d(TAG, "in network category = 0 ");
-//			switch(categoryListTask.getStatus()) {
-//			case FINISHED:
-//				Log.d(TAG, "finished");
-//				categoryListTask.cancel(true);
-//				Log.d(TAG, "task status: " + categoryListTask.getStatus());
-//				//categoryListTask.execute();
-//				break;
-//			case PENDING:
-//				Log.d(TAG, "pending");
-//				break;
-//			case RUNNING:
-//				Log.d(TAG, "running");
-//				break;
-//			}
-//		}
+		Log.d(TAG, "networkavailable");
+		if(0 == categoryList.size()) {
+			Log.d(TAG, "in network category = 0 ");
+			switch(categoryListTask.getStatus()) {
+			case FINISHED:
+				Log.d(TAG, "finished");
+				categoryListTask.cancel(true);
+				Log.d(TAG, "task is cancel: " + categoryListTask.isCancelled());
+				while(!categoryListTask.isCancelled()) {
+					Log.d(TAG, "task is cancel: " + categoryListTask.isCancelled());
+				}
+				Log.d(TAG, "task status: " + categoryListTask.getStatus());
+				categoryListTask.execute();
+				break;
+			case PENDING:
+				Log.d(TAG, "pending");
+				break;
+			case RUNNING:
+				Log.d(TAG, "running");
+				break;
+			}
+		}
 	}
 
 	@Override
@@ -171,7 +181,7 @@ public class HomeActivity extends BaseActivity implements ConnectivityMonitor.De
 		@Override
 		protected void onPostExecute(List<CategoryList> list) {
 			loadingDialog.dismiss();
-			if(null == error) {
+			if(null == error && (0 != list.size())) {
 				initActionBar();
 			} else {
 				handleError(error);
@@ -180,11 +190,17 @@ public class HomeActivity extends BaseActivity implements ConnectivityMonitor.De
 		
 		private void handleError(Exception error) {
 			if(error instanceof ClientProtocolException) {
-				getClientProtocolErrorAlertDialog();
+				if(!networkUnavailableDialog.isShowing()){
+					getClientProtocolErrorAlertDialog();
+				}
 			} else if(error instanceof JSONException){
-				getClientProtocolErrorAlertDialog();
+				if(!networkUnavailableDialog.isShowing()){
+					getClientProtocolErrorAlertDialog();
+				}
 			}  else if(error instanceof Exception) {
-				getClientProtocolErrorAlertDialog();
+				if(!networkUnavailableDialog.isShowing()){
+					getClientProtocolErrorAlertDialog();
+				}
 			}
 		}
 	}
