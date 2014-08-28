@@ -5,6 +5,10 @@
     <string name="application_name">科文哲</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <!-- tab -->
+    <string name="tab_policy">【柯p新政】</string>
+    <string name="tab_real">【真・柯文哲】</string>
+    <string name="tab_news">【新聞稿】</string>
     
     <!-- dialog -->
     <string name="updating">資料讀取中，請稍後</string>
