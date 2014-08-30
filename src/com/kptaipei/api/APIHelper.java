@@ -23,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.kptaipei.R;
+import com.kptaipei.api.model.AlbumsList;
 import com.kptaipei.api.model.Category;
 import com.kptaipei.api.model.CategoryList;
 
@@ -46,6 +47,11 @@ public class APIHelper {
         client.getParams().setParameter("http.protocol.content-charset", HTTP.UTF_8);
         this.apiKey = context.getString(R.string.api_key);
 	}
+	
+	/**
+	 * @author pang
+	 * @return List<CategoryList>
+	 */
 	
 	public List<CategoryList> getCategoryList() throws ClientProtocolException, IOException, JSONException {
 		String url = context.getString(R.string.category_url) + "?" + apiKey;
@@ -85,6 +91,11 @@ public class APIHelper {
 		}
 	}
 	
+	/**
+	 * @author pang
+	 * @param categoryId
+	 * @return List<Category>
+	 */
 	public List<Category> getCategory(String categoryId) throws ClientProtocolException, IOException, JSONException {
 		String url = context.getString(R.string.category_url) + categoryId + "?" + apiKey;
 		String msg = null;
@@ -113,6 +124,48 @@ public class APIHelper {
 		}
 		if(isSuccess) {
 			return categories;
+		} else {
+			String errMsg = (null == msg) ? context.getResources().getString(R.string.api_error_message) : msg;
+			AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+			dialog.setMessage(errMsg)
+            	.create()
+            	.show();
+			return null;
+		}
+	}
+	
+	/**
+	 * @author pang
+	 * @return List<AlbumsList>
+	 */
+	public List<AlbumsList> getAlbumsList() throws ClientProtocolException, JSONException, IOException {
+		String url = context.getString(R.string.albums_url) + "?" + apiKey;
+		String msg = null;
+		boolean isSuccess = false;
+		List<AlbumsList> albumsList = new ArrayList<AlbumsList>();
+		JSONObject response = new JSONObject(doGet(url));
+		Log.d(TAG, "getAlbumsList json: " + response.toString());
+		if(response.has("errorMessage")) {
+			msg = response.getString("errorMessage");
+		}
+		if(response.has("isSuccess")) {
+			isSuccess = response.getBoolean("isSuccess");
+		}
+		if(response.has("data")) {
+			JSONArray dataJosn = response.getJSONArray("data");
+			for(int i=0 ; i<dataJosn.length() ; i++) {
+				try {
+					JSONObject json = dataJosn.getJSONObject(i);
+					AlbumsList album = new AlbumsList(json);
+					albumsList.add(album);
+				} catch (JSONException e) {
+					e.printStackTrace();
+					continue;
+				}
+			}
+		}
+		if(isSuccess) {
+			return albumsList;
 		} else {
 			String errMsg = (null == msg) ? context.getResources().getString(R.string.api_error_message) : msg;
 			AlertDialog.Builder dialog = new AlertDialog.Builder(context);
