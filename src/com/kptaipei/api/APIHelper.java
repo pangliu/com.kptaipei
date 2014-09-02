@@ -52,7 +52,6 @@ public class APIHelper {
 	 * @author pang
 	 * @return List<CategoryList>
 	 */
-	
 	public List<CategoryList> getCategoryList() throws ClientProtocolException, IOException, JSONException {
 		String url = context.getString(R.string.category_url) + "?" + apiKey;
 		String msg = null;
