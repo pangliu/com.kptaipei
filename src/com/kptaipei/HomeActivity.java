@@ -17,6 +17,12 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.util.Log;
 import android.view.Menu;
+import android.content.Intent;
+import android.util.Log;
+import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 public class HomeActivity extends BaseActivity implements ConnectivityMonitor.Delegate {
 	private final static String TAG = HomeActivity.class.getSimpleName();
@@ -24,6 +30,7 @@ public class HomeActivity extends BaseActivity implements ConnectivityMonitor.De
 	private APIHelper api;
 	private ActionBar actionBar;
 	private AlertDialog networkUnavailableDialog;
+	private Button btnSwitch;
 	
 	public enum TabInfo {
 		POLICY(R.string.tab_policy),
@@ -44,6 +51,16 @@ public class HomeActivity extends BaseActivity implements ConnectivityMonitor.De
 		networkUnavailableDialog = networkUnavailableDialog(this);
 		api = new APIHelper(this);
 		initActionBar();
+		btnSwitch = (Button) findViewById(R.id.btn_switch);
+		btnSwitch.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(HomeActivity.this, AlbumActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	@Override

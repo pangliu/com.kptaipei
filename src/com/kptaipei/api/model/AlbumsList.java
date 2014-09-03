@@ -1,5 +1,8 @@
 package com.kptaipei.api.model;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,25 +21,37 @@ public class AlbumsList {
 	protected String
 		id,
 		photos,
-		videos,
 		title,
 		description,
-		dateCreate,
-		dateUpdate,
 		link;
-	
+	protected int videos;
+	protected Long
+		dateCreate,
+		dateUpdate;
+	protected Date
+		dateTimeCreat,
+		dateTimeUpdate;
+	protected Calendar calender = Calendar.getInstance() ;
 	protected Thumbnails thumbnails;
 	
 	public AlbumsList(JSONObject json) throws JSONException {
 		this.id = json.getString(KEY_ID);
 		this.photos = json.getString(KEY_PHOTOS);
-		this.videos = json.getString(KEY_VIDEOS);
+		this.videos = json.getInt(KEY_VIDEOS);
 		this.title = json.getString(KEY_TITLE);
 		this.description = json.getString(KEY_DESCRIPTION);
-		this.dateCreate = json.getString(KEY_DATE_CREATE);
-		this.dateUpdate = json.getString(KEY_DATE_UPDATE);
+		this.dateCreate = json.getLong(KEY_DATE_CREATE);
+		this.dateUpdate = json.getLong(KEY_DATE_UPDATE);
 		this.link = json.getString(KEY_LINK);
 		this.thumbnails = new Thumbnails(json.getJSONObject(KEY_THUMBNAILS));
+		if(null != dateCreate) {
+			this.calender.setTimeInMillis(dateCreate);
+			this.dateTimeCreat = calender.getTime();
+		}
+		if(null != dateUpdate) {
+			this.calender.setTimeInMillis(dateUpdate);
+			this.dateTimeUpdate = calender.getTime();
+		}
 	}
 	
 	public String getId() {
@@ -47,7 +62,7 @@ public class AlbumsList {
 		return photos;
 	}
 	
-	public String getVideos() {
+	public int getVideos() {
 		return videos;
 	}
 	
@@ -59,12 +74,12 @@ public class AlbumsList {
 		return description;
 	}
 	
-	public String getDateCreate() {
-		return dateCreate;
+	public Date getDateTimeCreat() {
+		return dateTimeCreat;
 	}
 	
-	public String getDateUpdate() {
-		return dateUpdate;
+	public Date getDateTimeUpdate() {
+		return dateTimeUpdate;
 	}
 	
 	public String getLink() {

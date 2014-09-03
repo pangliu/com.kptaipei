@@ -23,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.kptaipei.R;
+import com.kptaipei.api.model.AlbumsInfo;
 import com.kptaipei.api.model.AlbumsList;
 import com.kptaipei.api.model.Category;
 import com.kptaipei.api.model.CategoryList;
@@ -51,6 +52,7 @@ public class APIHelper {
 	/**
 	 * @author pang
 	 * @return List<CategoryList>
+	 * @throws IOException, JSONException, JSONException
 	 */
 	public List<CategoryList> getCategoryList() throws ClientProtocolException, IOException, JSONException {
 		String url = context.getString(R.string.category_url) + "?" + apiKey;
@@ -94,6 +96,7 @@ public class APIHelper {
 	 * @author pang
 	 * @param categoryId
 	 * @return List<Category>
+	 * @throws IOException, JSONException, JSONException
 	 */
 	public List<Category> getCategory(String categoryId) throws ClientProtocolException, IOException, JSONException {
 		String url = context.getString(R.string.category_url) + categoryId + "?" + apiKey;
@@ -136,6 +139,7 @@ public class APIHelper {
 	/**
 	 * @author pang
 	 * @return List<AlbumsList>
+	 * @throws IOException, JSONException, JSONException
 	 */
 	public List<AlbumsList> getAlbumsList() throws ClientProtocolException, JSONException, IOException {
 		String url = context.getString(R.string.albums_url) + "?" + apiKey;
@@ -165,6 +169,40 @@ public class APIHelper {
 		}
 		if(isSuccess) {
 			return albumsList;
+		} else {
+			String errMsg = (null == msg) ? context.getResources().getString(R.string.api_error_message) : msg;
+			AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+			dialog.setMessage(errMsg)
+            	.create()
+            	.show();
+			return null;
+		}
+	}
+	
+	/**
+	 * @author pang
+	 * @param albumsId
+	 * @return AlbumsInfo
+	 * @throws IOException, JSONException, JSONException
+	 */
+	public AlbumsInfo getAlbumsInfo(String albumsId) throws ClientProtocolException, JSONException, IOException {
+		String url = context.getString(R.string.albums_url) + albumsId + "?" + apiKey;
+		AlbumsInfo albumsInfo = null;
+		String msg = null;
+		boolean isSuccess = false;
+		JSONObject response = new JSONObject(doGet(url));
+		if(response.has("errorMessage")) {
+			msg = response.getString("errorMessage");
+		}
+		if(response.has("isSuccess")) {
+			isSuccess = response.getBoolean("isSuccess");
+		}
+		if(response.has("data")) {
+			JSONObject dataJson = response.getJSONObject("data");
+			albumsInfo = new AlbumsInfo(dataJson);
+		}
+		if(isSuccess) {
+			return albumsInfo;
 		} else {
 			String errMsg = (null == msg) ? context.getResources().getString(R.string.api_error_message) : msg;
 			AlertDialog.Builder dialog = new AlertDialog.Builder(context);
