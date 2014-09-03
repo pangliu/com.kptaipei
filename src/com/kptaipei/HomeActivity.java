@@ -2,12 +2,14 @@ package com.kptaipei;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.kptaipei.api.APIHelper;
 import com.kptaipei.api.model.CategoryList;
 import com.kptaipei.network.ConnectivityMonitor;
 import com.kptaipei.fragment.NewsFragment;
 import com.kptaipei.fragment.PoliciesFragment;
 import com.kptaipei.fragment.RealKpFragment;
+
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.app.ActionBar;
@@ -15,8 +17,12 @@ import android.app.ActionBar.Tab;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 public class HomeActivity extends BaseActivity implements ConnectivityMonitor.Delegate {
 	private final static String TAG = HomeActivity.class.getSimpleName();
@@ -24,6 +30,7 @@ public class HomeActivity extends BaseActivity implements ConnectivityMonitor.De
 	private APIHelper api;
 	private ActionBar actionBar;
 	private AlertDialog networkUnavailableDialog;
+	private Button btnSwitch;
 	
 	public enum TabInfo {
 		POLICY(R.string.tab_policy),
@@ -44,6 +51,16 @@ public class HomeActivity extends BaseActivity implements ConnectivityMonitor.De
 		networkUnavailableDialog = networkUnavailableDialog(this);
 		api = new APIHelper(this);
 		initActionBar();
+		btnSwitch = (Button) findViewById(R.id.btn_switch);
+		btnSwitch.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(HomeActivity.this, AlbumActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	@Override
