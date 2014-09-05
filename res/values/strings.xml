@@ -18,7 +18,7 @@
 	<string name="api_error_message">目前無法取得資料，請稍後再試</string>
 	
     <!-- api key -->
-    <string name="api_key">accessToken=</string>
+    <string name="api_key">accessToken=kp53f819f8245ab1.53536546</string>
     
     <!-- 類別清單url -->
     <string name="category_url">http://api.kptaipei.tw/v1/category/</string>
