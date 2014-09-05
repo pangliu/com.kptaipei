@@ -27,6 +27,7 @@ import com.kptaipei.api.model.AlbumsInfo;
 import com.kptaipei.api.model.AlbumsList;
 import com.kptaipei.api.model.Category;
 import com.kptaipei.api.model.CategoryList;
+import com.kptaipei.api.model.VideoList;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -203,6 +204,48 @@ public class APIHelper {
 		}
 		if(isSuccess) {
 			return albumsInfo;
+		} else {
+			String errMsg = (null == msg) ? context.getResources().getString(R.string.api_error_message) : msg;
+			AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+			dialog.setMessage(errMsg)
+            	.create()
+            	.show();
+			return null;
+		}
+	}
+	
+	/**
+	 * @author pang
+	 * @return List<VideoList>
+	 * @throws ClientProtocolException, JSONException, IOException
+	 */
+	public List<VideoList> getVideoList() throws ClientProtocolException, JSONException, IOException {
+		String url = context.getString(R.string.videos_url) + "?" + apiKey;
+		String msg = null;
+		boolean isSuccess = false;
+		List<VideoList> videoList = new ArrayList<VideoList>();
+		JSONObject response = new JSONObject(doGet(url));
+		if(response.has("errorMessage")) {
+			msg = response.getString("errorMessage");
+		}
+		if(response.has("isSuccess")) {
+			isSuccess = response.getBoolean("isSuccess");
+		}
+		if(response.has("data")) {
+		JSONArray dataJosn = response.getJSONArray("data");
+			for(int i=0 ; i<dataJosn.length() ; i++) {
+				try {
+					JSONObject json = dataJosn.getJSONObject(i);
+					VideoList video = new VideoList(json);
+					videoList.add(video);
+				} catch (JSONException e) {
+					e.printStackTrace();
+					continue;
+				}
+			}
+		}
+		if(isSuccess) {
+			return videoList;
 		} else {
 			String errMsg = (null == msg) ? context.getResources().getString(R.string.api_error_message) : msg;
 			AlertDialog.Builder dialog = new AlertDialog.Builder(context);

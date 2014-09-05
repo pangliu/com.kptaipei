@@ -12,6 +12,7 @@ import com.kptaipei.api.APIHelper;
 import com.kptaipei.api.model.AlbumsInfo;
 import com.kptaipei.api.model.AlbumsList;
 import com.kptaipei.api.model.PhotoInfo;
+import com.kptaipei.api.model.VideoList;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,10 +21,12 @@ import android.util.Log;
 public class AlbumActivity extends BaseActivity{
 	private final static String TAG = AlbumActivity.class.getSimpleName();
 	private List<AlbumsList> albumsList = new ArrayList<AlbumsList>();
+	private List<VideoList> videoList = new ArrayList<VideoList>();
 	private AlbumsInfo albumsInfo;
 	private APIHelper apiHelper;
 	private GetAlbumListTask albumTask;
 	private GetAlbumInfoTask albumInfoTask;
+	private GetVideoListTask videoTask;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	
 	@Override
@@ -31,10 +34,12 @@ public class AlbumActivity extends BaseActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_album);
 		apiHelper = new APIHelper(this);
-		albumTask = new GetAlbumListTask();
-		albumTask.execute();
-		albumInfoTask = new GetAlbumInfoTask();
-		albumInfoTask.execute();
+//		albumTask = new GetAlbumListTask();
+//		albumTask.execute();
+//		albumInfoTask = new GetAlbumInfoTask();
+//		albumInfoTask.execute();
+		videoTask = new GetVideoListTask();
+		videoTask.execute();
 	}
 	
 	class GetAlbumListTask extends AsyncTask<String, Integer, List<AlbumsList>>{
@@ -76,7 +81,30 @@ public class AlbumActivity extends BaseActivity{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			return null;
+			return albumsInfo;
+		}
+	}
+	
+	class GetVideoListTask extends AsyncTask<String, Integer, List<VideoList>> {
+
+		@Override
+		protected List<VideoList> doInBackground(String... params) {
+			try {
+				videoList = apiHelper.getVideoList();
+				for(VideoList info : videoList) {
+					Log.d(TAG, "title : " + info.getTitle());
+					Log.d(TAG, "default detail: " + info.getThumbnailInfo().getDefaultInfo().getUrl() + 
+							" + width: " + info.getThumbnailInfo().getDefaultInfo().getWidth() + 
+							" + height: " + info.getThumbnailInfo().getDefaultInfo().getHeight());
+				}
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (JSONException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return videoList;
 		}
 		
 	}
