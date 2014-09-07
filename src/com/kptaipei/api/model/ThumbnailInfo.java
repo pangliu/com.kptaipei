@@ -3,7 +3,7 @@ package com.kptaipei.api.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Thumbnails {
+public class ThumbnailInfo {
 	private final static String
 		KEY_SMALL = "small",
 		KEY_SMALL_SQUARE = "small_square",
@@ -22,7 +22,7 @@ public class Thumbnails {
 		large,
 		original;
 	
-	public Thumbnails(JSONObject json) throws JSONException {
+	public ThumbnailInfo(JSONObject json) throws JSONException {
 		this.small = json.getString(KEY_SMALL);
 		this.smallSquare = json.getString(KEY_SMALL_SQUARE);
 		this.largeSquare = json.getString(KEY_LARGE_SQUARE);

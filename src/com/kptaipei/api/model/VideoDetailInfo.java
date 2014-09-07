@@ -3,7 +3,7 @@ package com.kptaipei.api.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class VideoThumbnailInfo {
+public class VideoDetailInfo {
 	private final static String 
 		KEY_DEFAULT = "default",
 		KEY_MEDIUM = "medium",
@@ -45,7 +45,7 @@ public class VideoThumbnailInfo {
 		standarInfo,
 		maxresInfo;
 		
-	public VideoThumbnailInfo(JSONObject json) throws JSONException {
+	public VideoDetailInfo(JSONObject json) throws JSONException {
 		this.defaultInfo = new ThumbnailKind(json.optJSONObject(KEY_DEFAULT));
 		this.mediumInfo = new ThumbnailKind(json.optJSONObject(KEY_MEDIUM));
 		this.highInfo = new ThumbnailKind(json.optJSONObject(KEY_HIGH));

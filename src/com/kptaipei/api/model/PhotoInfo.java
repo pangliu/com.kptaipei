@@ -33,7 +33,7 @@ public class PhotoInfo {
 	protected Double
 		latitude,
 		longitude;
-	protected Thumbnails images;
+	protected ThumbnailInfo images;
 	protected Location location;
 	protected Calendar calendar = Calendar.getInstance() ;
 	protected Date
@@ -49,7 +49,7 @@ public class PhotoInfo {
 		this.dateTaken = json.getLong(KEY_DATE_TAKEN);
 		this.latitude = json.optDouble(KEY_LATITUDE);
 		this.longitude = json.optDouble(KEY_LONGITUDE);
-		this.images = new Thumbnails(json.getJSONObject(KEY_IMAGES));
+		this.images = new ThumbnailInfo(json.getJSONObject(KEY_IMAGES));
 		
 		this.location = new Location("kptaipei");
 		location.setLatitude(json.getJSONObject(KEY_LOCATION).getDouble(KEY_LATITUDE));
@@ -85,7 +85,7 @@ public class PhotoInfo {
 	public String getIsprimary() {
 		return isprimary;
 	}
-	public Thumbnails getImages() {
+	public ThumbnailInfo getImages() {
 		return images;
 	}
 }

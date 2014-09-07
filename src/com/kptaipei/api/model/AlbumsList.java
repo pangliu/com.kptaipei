@@ -32,7 +32,7 @@ public class AlbumsList {
 		dateTimeCreat,
 		dateTimeUpdate;
 	protected Calendar calender = Calendar.getInstance() ;
-	protected Thumbnails thumbnails;
+	protected ThumbnailInfo thumbnails;
 	
 	public AlbumsList(JSONObject json) throws JSONException {
 		this.id = json.getString(KEY_ID);
@@ -43,7 +43,7 @@ public class AlbumsList {
 		this.dateCreate = json.getLong(KEY_DATE_CREATE);
 		this.dateUpdate = json.getLong(KEY_DATE_UPDATE);
 		this.link = json.getString(KEY_LINK);
-		this.thumbnails = new Thumbnails(json.getJSONObject(KEY_THUMBNAILS));
+		this.thumbnails = new ThumbnailInfo(json.getJSONObject(KEY_THUMBNAILS));
 		if(null != dateCreate) {
 			this.calender.setTimeInMillis(dateCreate);
 			this.dateTimeCreat = calender.getTime();
@@ -86,7 +86,7 @@ public class AlbumsList {
 		return link;
 	}
 	
-	public Thumbnails getThumbnails() {
+	public ThumbnailInfo getThumbnails() {
 		return thumbnails;
 	}
 }

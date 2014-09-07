@@ -3,7 +3,7 @@ package com.kptaipei.api.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Category {
+public class CategoryInfo {
 	
 	public final static String
 		KEY_ID = "id",
@@ -32,7 +32,7 @@ public class Category {
 		plainContent,
 		thumbnail;
 	
-	public Category(JSONObject json) throws JSONException {
+	public CategoryInfo(JSONObject json) throws JSONException {
 		this.id = json.getString(KEY_ID);
 		this.title = json.getString(KEY_TITLE);
 		this.content = json.getString(KEY_CONTENT);

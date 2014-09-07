@@ -8,7 +8,7 @@ import org.json.JSONException;
 
 import com.kptaipei.R;
 import com.kptaipei.api.APIHelper;
-import com.kptaipei.api.model.Category;
+import com.kptaipei.api.model.CategoryInfo;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -39,10 +39,10 @@ public class BaseFragment extends Fragment{
         return dialog;
     }
     
-    class GetCategoryTask extends AsyncTask<String, Integer, List<Category>> {
+    class GetCategoryTask extends AsyncTask<String, Integer, List<CategoryInfo>> {
 		private ListView listView;
 		private ArrayAdapter<String> adapter;
-		private List<Category> categories;
+		private List<CategoryInfo> categories;
 		private APIHelper apiHelper;
 		private ProgressDialog loadingDialog;
 		
@@ -62,7 +62,7 @@ public class BaseFragment extends Fragment{
 		}
 		
 		@Override
-		protected List<Category> doInBackground(String... params) {
+		protected List<CategoryInfo> doInBackground(String... params) {
 			String categoryId = params[0];
 			try {
 				categories = apiHelper.getCategory(categoryId);
@@ -77,11 +77,11 @@ public class BaseFragment extends Fragment{
 		}
 		
 		@Override
-		protected void onPostExecute(List<Category> categories) {
+		protected void onPostExecute(List<CategoryInfo> categories) {
 			loadingDialog.dismiss();
 			if(null != categories) {
 				adapter.clear();
-				for(Category category : categories) {
+				for(CategoryInfo category : categories) {
 					adapter.add(category.getTitle());
 				}
 				listView.setAdapter(adapter);

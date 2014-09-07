@@ -20,7 +20,7 @@ public class VideoList {
 		publishedAt,
 		link;
 	protected int videoCount;
-	protected VideoThumbnailInfo thumbnailInfo;
+	protected VideoDetailInfo thumbnailInfo;
 	
 	
 	public VideoList(JSONObject json) throws JSONException {
@@ -30,7 +30,7 @@ public class VideoList {
 		this.publishedAt = json.getString(KEY_PUBLISHED_AT);
 		this.link = json.getString(KEY_LINK);
 		this.videoCount = json.getInt(KEY_VIDEO_COUNT);
-		this.thumbnailInfo = new VideoThumbnailInfo(json.getJSONObject(KEY_THUMBNAILS));
+		this.thumbnailInfo = new VideoDetailInfo(json.getJSONObject(KEY_THUMBNAILS));
 	}
 	
 	public String getId() {
@@ -57,7 +57,7 @@ public class VideoList {
 		return videoCount;
 	}
 	
-	public VideoThumbnailInfo getThumbnailInfo() {
+	public VideoDetailInfo getThumbnailInfo() {
 		return thumbnailInfo;
 	}
 }

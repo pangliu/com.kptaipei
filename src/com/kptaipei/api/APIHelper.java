@@ -25,7 +25,7 @@ import org.json.JSONObject;
 import com.kptaipei.R;
 import com.kptaipei.api.model.AlbumsInfo;
 import com.kptaipei.api.model.AlbumsList;
-import com.kptaipei.api.model.Category;
+import com.kptaipei.api.model.CategoryInfo;
 import com.kptaipei.api.model.CategoryList;
 import com.kptaipei.api.model.VideoList;
 
@@ -99,11 +99,11 @@ public class APIHelper {
 	 * @return List<Category>
 	 * @throws IOException, JSONException, JSONException
 	 */
-	public List<Category> getCategory(String categoryId) throws ClientProtocolException, IOException, JSONException {
+	public List<CategoryInfo> getCategory(String categoryId) throws ClientProtocolException, IOException, JSONException {
 		String url = context.getString(R.string.category_url) + categoryId + "?" + apiKey;
 		String msg = null;
 		boolean isSuccess = false;
-		List<Category> categories = new ArrayList<Category>();
+		List<CategoryInfo> categories = new ArrayList<CategoryInfo>();
 		JSONObject response = new JSONObject(doGet(url));
 		Log.d(TAG, "getCategory json: " + response.toString());
 		if(response.has("errorMessage")) {
@@ -117,7 +117,7 @@ public class APIHelper {
 			for(int i=0 ; i<dataJosn.length() ; i++) {
 				try {
 					JSONObject json = dataJosn.getJSONObject(i);
-					Category category = new Category(json);
+					CategoryInfo category = new CategoryInfo(json);
 					categories.add(category);
 				} catch (JSONException e) {
 					e.printStackTrace();
